@@ -38,7 +38,7 @@ footer{max-width:1180px;margin:0 auto;padding:10px 16px 40px;font-size:12px;colo
 </style></head><body>
 <header><h1>완도 쓸 곳 지도 — 뱃길 생활권 시뮬레이터</h1>
 <p>농어촌 기본소득이 지급되면 12개 읍면·54개 섬에서 그 돈을 어디에 쓸 수 있는지, 공개 자료 6종을 결합해 계산했습니다. 생활권을 어떻게 묶느냐에 따라 달라지는 값을 직접 바꿔 볼 수 있습니다.</p>
-<div class="ver">v3 · 2026-11-15 갱신 · 설치·로그인 없이 열립니다 · 지급 가정은 군이 제시한 1인 월 17만 원(정부 15만 + 군 2만)이며 화면에서 바꿀 수 있습니다</div></header>
+<div class="ver">v4 · 2026-11-15 갱신(세 안 비교) · 설치·로그인 없이 열립니다 · 지급 가정은 군이 제시한 1인 월 17만 원(정부 15만 + 군 2만)이며 화면에서 바꿀 수 있습니다</div></header>
 <nav id="nav"></nav>
 <main>
 <section id="s0">
@@ -57,19 +57,20 @@ footer{max-width:1180px;margin:0 auto;padding:10px 16px 40px;font-size:12px;colo
 </section>
 <section id="s2">
  <div class="box"><h2>생활권 시뮬레이터 — 섬 면을 어느 읍과 묶을까</h2>
- <p class="note">시행지침 기본형: 면 주민은 「읍을 뺀 모든 면」에서 쓰고, 읍에서는 병원·약국·학원·안경원·영화관·문구점·세탁소 7개 공통업종만 한도 없이 씁니다(2026. 9. 22. 지침 개정). 군이 면을 읍과 한 생활권으로 묶으면 읍 가게 전체를 쓸 수 있지만 읍 소재 가맹점과 주유소·편의점·하나로마트를 합쳐 한도가 걸립니다(화천 5만 원, 진안 통합형 7만 원, 구례 10만 원 사례). 어느 면을 어느 읍과 묶을지는 군이 정합니다.</p>
+ <p class="note"><b>세 안을 나란히 봅니다.</b> ① 지금대로(묶지 않음) ② 배가 닿는 읍과 묶음 ③ 묶지 않고 섬 면의 한도 업종(하나로마트·주유소·편의점) 한도만 올림(보성군은 면 하나로마트·주유소·편의점을 월 10만 원까지 씁니다). 면 지역의 하나로마트·주유소·편의점은 합산 한도 업종이고, 묶으면 읍 가게도 같은 한도를 나눠 씁니다. 그래서 섬 안 하나로마트·주유소에서 이미 한도를 채워 쓰는 가구에게 ②는 얻는 것이 거의 없고 ③이 낫습니다. 시범 군에서는 쓸 곳이 마땅치 않은 면 주민이 하나로마트 5만 원 한도를 채워 썼다는 보도가 있습니다.<br>시행지침 기본형: 면 주민은 「읍을 뺀 모든 면」에서 쓰고, 읍에서는 병원·약국·학원·안경원·영화관·문구점·세탁소 7개 공통업종만 한도 없이 씁니다(2026. 9. 22. 지침 개정). 군이 면을 읍과 한 생활권으로 묶으면 읍 가게 전체를 쓸 수 있지만 읍 소재 가맹점과 주유소·편의점·하나로마트를 합쳐 한도가 걸립니다(화천 5만 원, 진안 통합형 7만 원, 구례 10만 원 사례). 어느 면을 어느 읍과 묶을지는 군이 정합니다.</p>
  <div class="ctl"><label>거주 면 <select id="sm"></select></label>
- <label>읍과 묶기 <select id="sb"><option value="0">묶지 않음(기본형)</option><option value="1">배·다리가 닿는 읍과 묶음</option></select></label>
- <label>읍 사용 한도 <b id="capv"></b>만 원 <input type="range" id="cap" min="3" max="10" step="1" value="5"></label></div>
+ <label>묶을 때 합산 한도 <b id="capv"></b>만 원 <input type="range" id="cap" min="3" max="10" step="1" value="5"></label>
+ <label>섬 안에서 이미 쓰는 하나로·주유소·편의점 <b id="usev"></b>만 원 <input type="range" id="use" min="0" max="5" step="1" value="5"></label>
+ <label>한도 업종 한도만 올리는 안 <b id="hv"></b>만 원 <input type="range" id="hcap" min="5" max="15" step="1" value="10"></label></div>
  <div class="res" id="sr"></div>
  <div id="sn" class="note" style="margin-top:8px"></div></div>
- <div class="box"><h2>9개 면 한눈에 — 묶지 않을 때와 묶을 때</h2><div class="scroll"><table id="t2"></table></div>
- <p class="note">「실제로 닿는 면」은 배나 다리·육로로 바로 갈 수 있는 면만 센 값입니다. 군외·신지·고금·약산은 다리와 육로로 서로 이어지고, 생일은 배가 약산면 당목항에 닿습니다. 청산·소안·보길·금당은 배와 다리가 읍(또는 군 밖)으로만 닿아, 지침대로 「모든 면」이 열려 있어도 실제로 쓸 수 있는 곳은 자기 섬 가게입니다. 1곳당 금액 = 실제로 닿는 면들의 인구 × 면 지역에서 써야 하는 금액 ÷ 그 면들의 가맹점 수.</p></div>
+ <div class="box"><h2>9개 면 한눈에 — 세 안 비교</h2><div class="scroll"><table id="t2"></table></div>
+ <p class="note">「읍을 거치지 않고 닿는 면」은 배나 다리·육로로 읍을 지나지 않고 갈 수 있는 면만 센 값입니다. 군외·신지·고금·약산은 다리와 육로로 서로 이어지고, 생일은 배가 약산면 당목항에 닿습니다. 청산·소안·보길·금당은 배와 다리가 읍(또는 군 밖)에 먼저 닿습니다. 읍에 내려 다른 면 가게까지 갈 수는 있지만(예: 청산 → 완도항 → 군외면), 정작 배가 내려 준 읍에서는 7개 공통업종 말고는 쓸 수 없습니다. 생필품 가맹점 = 식료품·생필품 소매 + 하나로마트·주유소·편의점(상호명 분류, 가맹 대장으로 확정 필요). 「자료상 출발점」은 섬 안 한도 업종 가맹 유무로만 고른 것이며 결정은 위원회가 합니다.</p></div>
 </section>
 <section id="s3">
  <div class="box"><h2>섬별 — 이동 공급·구판장 가맹 우선순위</h2>
  <div class="scroll"><table id="t3"></table></div>
- <p class="note">점포가 확인되지 않는 섬을 먼저, 그 안에서는 인구 × (1 + 가까운 항로 결항률)이 큰 순서로 놓았습니다. 결항 자료가 없는 섬은 「미상」으로 두고 인구만으로 순서를 매겼습니다. 인구 1,500명 미만 섬만 표시합니다.</p></div>
+ <p class="note">네 묶음으로 나눴습니다. ① 정기 여객선이 다니는데 반경 안 점포가 확인되지 않는 섬(군 물류비 지원 섬 제외)을 먼저, ② 군이 이미 생필품 물류비를 지원하는 섬, ③ 점포가 있는 섬, ④ 다리로 이어졌거나 정기 여객선이 없는 섬 순입니다. 묶음 안에서는 점포 없는 섬을 먼저, 그다음 인구 × (1 + 가까운 항로 결항률)이 큰 순서입니다. 결항 자료가 없는 섬은 「미상」으로 두고 인구만으로 순서를 매겼습니다. 인구 1,500명 미만 섬만 표시합니다.</p></div>
 </section>
 <section id="s4">
  <div class="box"><h2>뱃길 — 항로별 운항과 결항</h2><div class="scroll"><table id="t4"></table></div>
@@ -79,9 +80,9 @@ footer{max-width:1180px;margin:0 auto;padding:10px 16px 40px;font-size:12px;colo
  <div class="box"><h2>자료와 계산 방법</h2><table id="t5"></table>
  <h3>읽을 때 유의할 점</h3>
  <ul class="note"><li>가맹점 세부 유형(식료품·생필품, 주유소, 편의점 등)은 상호명 낱말로 나눈 것입니다. 정확한 업종은 가맹점 등록 대장으로 확정해야 합니다.</li>
- <li>하나로마트·주유소·편의점은 지침상 월 합산 5만 원 한도가 걸리는 업종이어서 따로 셌습니다. 면 하나로마트는 군과 협약을 맺어야 쓸 수 있고, 현재 가맹 목록에는 대부분 올라 있지 않습니다.</li><li>읍과 묶을 때의 한도는 화천군 공지(읍 소재 가맹점·주유소·편의점·면 하나로마트 합산 5만 원)를 기본값으로 두었고, 군이 정한 다른 금액(진안 7만, 구례 10만 원)을 슬라이더로 바꿔 볼 수 있습니다.</li><li>군은 이미 8개 부속도서(충도·다랑도·원도·넙도·서넙도·횡간도·비견도·예작도)에 생필품 물류비를 지원합니다. 섬 우선순위는 이 사업과 겹치지 않게 보아야 합니다.</li>
+ <li>하나로마트·주유소·편의점은 지침상 월 합산 5만 원 한도가 걸리는 업종이어서 따로 셌습니다. 면 하나로마트는 군과 결제처 협약을 맺어야 쓸 수 있습니다. 완도농협은 2026. 10. 20. 군외·신지·고금·약산·생일·금당 6개 면 매장으로 협약했고, 청산·소안·보길·노화·금일은 다른 지역농협 관할입니다. 노화농협 보길지점 하나로마트는 이미 완도사랑상품권 가맹 목록에 있습니다.</li><li>읍과 묶을 때의 한도는 화천군 공지(읍 소재 가맹점·주유소·편의점·면 하나로마트 합산 5만 원)를 기본값으로 두었고, 군이 정한 다른 금액(진안 통합형 7만, 구례 10만 원)을 슬라이더로 바꿔 볼 수 있습니다. 묶지 않고 한도 업종 한도만 올리는 안은 보성군(주유소·편의점·면 하나로마트 월 10만 원)을 기본값으로 두었습니다.</li><li>군은 이미 8개 부속도서(충도·다랑도·원도·넙도·서넙도·횡간도·비견도·예작도)에 생필품 물류비를 지원합니다. 섬 우선순위는 이 사업과 겹치지 않게 보아야 합니다.</li>
  <li>약국·병의원은 건강보험심사평가원 등록 기준입니다. 보건지소·보건진료소는 「공공」으로 따로 셌습니다.</li>
- <li>뱃길 연결은 한국해양교통안전공단 기항지·운항 자료에 나온 항로만 썼습니다. 낙도 보조항로·도선 일부는 빠져 있을 수 있습니다.</li>
+ <li>뱃길 연결은 해양수산부 내항여객선 기항지 정보(공공데이터포털 15147764)와 한국해양교통안전공단 항로별 운항 자료에 나온 항로만 썼습니다. 편수는 계획 편수이며 이용객 수가 아닙니다. 낙도 보조항로·도선 일부는 빠져 있을 수 있습니다.</li>
  <li>이 화면은 생활권을 정하는 도구이지 결정이 아닙니다. 사용지역·사용처는 군 기본소득위원회가 정합니다.</li></ul></div>
 </section>
 </main>
@@ -99,14 +100,17 @@ function draw0(){
  $('#payv').textContent=PAY;const tot=D.합계.인구*PAY/1e4;
  const mx=Math.max(...EM.map(r=>r.인구*PAY/r.가맹점)),mn=Math.min(...EM.map(r=>r.인구*PAY/r.가맹점));
  const wd=by['완도읍'];const sm=D.섬.filter(i=>i.반경내점포===0);const only=D.시나리오.filter(x=>x.읍으로만);
- $('#cards').innerHTML=[['월 지급 총액',fmt(tot)+'억 원','군민 '+fmt(D.합계.인구)+'명 × '+PAY+'만 원',''],['가맹점 중 완도읍 비중',(100*wd.가맹점/D.합계.가맹점).toFixed(1)+'%','인구 비중은 '+(100*wd.인구/D.합계.인구).toFixed(1)+'%','warn'],['가맹점 1곳당 월 지급액 격차',(mx/mn).toFixed(1)+'배','가장 큰 면 '+fmt(mx)+'만 · 완도읍 '+fmt(mn)+'만','warn'],['배·다리가 읍으로만 닿는 섬 면',only.length+'곳 '+fmt(only.reduce((a,x)=>a+x.인구,0))+'명',only.map(x=>x.읍면.replace('면','')).join('·')+' — 기본형에서는 자기 섬 가게만','warn'],['점포가 없는 섬',sm.length+'곳','주민 '+fmt(sm.reduce((a,i)=>a+i.인구,0))+'명(2024년 말, 근사)','warn'],['결합 자료','6종','인구·가맹점·상가·의료·섬·여객선','']].map(c=>`<div class="card ${c[3]}"><span>${c[0]}</span><b>${c[1]}</b><span>${c[2]}</span></div>`).join('');
+ const gs=x=>x.한도업종+x.식료품생필품;const isl=D.시나리오.filter(x=>x.읍으로만),land=SC['군외면'];
+ const A=islA();
+ $('#cards').innerHTML=[['월 지급 총액(최대)',fmt(tot)+'억 원','군민 '+fmt(D.합계.인구)+'명 × '+PAY+'만 원 — 거주 요건 적용 전',''],['가맹점 중 완도읍 비중',(100*wd.가맹점/D.합계.가맹점).toFixed(1)+'%','인구 비중은 '+(100*wd.인구/D.합계.인구).toFixed(1)+'%','warn'],['읍을 거치지 않고 닿는 생필품 가맹점',Math.min(...isl.map(x=>gs(x.자기면)))+'~'+Math.max(...isl.map(x=>gs(x.자기면)))+'곳','섬 면 '+isl.map(x=>x.읍면.replace('면','')+' '+gs(x.자기면)).join('·')+' / 육지 4면은 서로 이어져 '+gs(land.기본형_실제)+'곳','warn'],['배·다리가 읍(또는 군 밖)에 먼저 닿는 섬 면',isl.length+'곳 '+fmt(isl.reduce((a,x)=>a+x.인구,0))+'명',isl.map(x=>x.읍면.replace('면','')).join('·')+' — 다른 면 가게는 읍에 내려 다시 이동해야','warn'],['여객선이 다니는데 가게가 없는 섬',A.length+'곳','주민 '+fmt(A.reduce((a,i)=>a+i.인구,0))+'명 — 군 물류비 지원 섬 제외(반경 근사)','warn'],['결합 자료','6종','인구·가맹점·상가·의료·섬·여객선','']].map(c=>`<div class="card ${c[3]}"><span>${c[0]}</span><b>${c[1]}</b><span>${c[2]}</span></div>`).join('');
  let h='<tr><th>읍면</th><th>인구</th><th>60세 이상</th><th>월 지급액(만 원)</th><th>가맹점</th><th>가맹점 1곳당 월 지급액(만 원)</th><th>한도 업종 가맹</th><th>식료품·생필품 가맹(상호명 분류)</th><th>약국(심평원)</th></tr>';
  EM.forEach(r=>{const v=r.인구*PAY/r.가맹점;h+=`<tr><td>${r.읍면}</td><td>${fmt(r.인구)}</td><td>${r.고령60}%</td><td>${fmt(r.인구*PAY)}</td><td>${fmt(r.가맹점)}</td><td><span class="bar ${v>400?'hot':''}" style="width:${Math.round(110*v/mx)}px"></span> ${fmt(v)}</td><td>${r.한도업종가맹}</td><td>${r.식료품생필품가맹}</td><td>${r.약국}</td></tr>`});
  $('#t0').innerHTML=h}
-$('#pay').oninput=e=>{PAY=+e.target.value;draw0();drawSim();draw2()};let CAP=5;
+$('#pay').oninput=e=>{PAY=+e.target.value;draw0();drawSim();draw2()};let CAP=5,USE=5,HC=10;
 // 지도
 let map,layer;const TYPES=['전체','식료품·생필품 소매','음식점','약국','병의원','이·미용','주유소류(한도)','편의점(한도)','하나로마트류(한도)','숙박','기타 소매','기타'];
 function initMap(){if(map){map.invalidateSize();return}
+ if(typeof L==='undefined'){$('#map').innerHTML='<p style="padding:20px">지도는 외부 지도 서버(OpenStreetMap)에 접속할 수 있는 인터넷망에서 열립니다. 다른 탭은 그대로 쓸 수 있습니다.</p>';return}
  map=L.map('map',{preferCanvas:true}).setView([34.30,126.86],10);
  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:18,attribution:'© OpenStreetMap'}).addTo(map);
  for(const k in D.항로선형)L.polyline(D.항로선형[k],{color:'#12355b',weight:2,opacity:.55,dashArray:'6 5'}).bindTooltip(k).addTo(map);
@@ -119,20 +123,26 @@ const SC=Object.fromEntries(D.시나리오.map(x=>[x.읍면,x]));const MY=D.시�
 $('#sm').innerHTML=MY.map(m=>`<option>${m}</option>`).join('');
 const gpop=u=>u.reduce((a,x)=>a+by[x].인구,0);
 function per(x,amt){return gpop(x.기본형_실제.묶음)*amt/x.기본형_실제.가맹점}
-function drawSim(){const m=$('#sm').value,x=SC[m],bind=$('#sb').value=='1';$('#capv').textContent=CAP;
- const must=bind?PAY-CAP:PAY;
- $('#sr').innerHTML=[['지침상 쓸 수 있는 면 가맹점',fmt(x.기본형_명목.가맹점)+'곳','읍을 뺀 9개 면 전체',''],['실제로 닿는 면 가맹점',fmt(x.기본형_실제.가맹점)+'곳',x.기본형_실제.묶음.join('·'),x.읍으로만?'warn':''],['배·다리가 닿는 읍 가맹점',fmt(x.묶을때_읍.가맹점)+'곳',x.뱃길읍.join('·')+(bind?' — 월 '+CAP+'만 원까지':' — 병원·약국 등 7개 공통업종만'),''],['면 지역에서 써야 하는 금액','1인 월 '+must+'만 원',m+' 전체 월 '+fmt(x.인구*must)+'만 원',''],['실제로 닿는 면 가맹점 1곳당',fmt(per(x,must))+'만 원','묶지 않을 때 '+fmt(per(x,PAY))+'만 원',per(x,must)>300?'warn':''],['자기 면 가맹점',fmt(x.자기면.가맹점)+'곳','한도 업종 '+x.자기면.한도업종+' · 식료품·생필품 '+x.자기면.식료품생필품+' · 약국 '+x.약국,'']].map(c=>`<div class="card ${c[3]}"><span>${c[0]}</span><b>${c[1]}</b><span>${c[2]}</span></div>`).join('');
- $('#sn').innerHTML=`<b>${m}</b> — 닿는 길: ${x.닿는길}.`+(x.읍으로만?' 배·다리가 읍으로만 닿아, 묶지 않으면 장을 볼 수 있는 곳이 자기 섬 가게뿐입니다.':'')+(bind?`<br>묶으면 읍 가게를 월 ${CAP}만 원까지 쓸 수 있습니다. 대신 읍의 병원·약국 등 공통업종을 한도 없이 쓰던 혜택이 이 한도 안으로 들어와, 의료 지출이 많은 주민에게는 불리할 수 있습니다(진안군은 2026. 10. 20. 이 이유로 상전면을 묶지 않기로 했습니다). 나머지 ${PAY-CAP}만 원은 여전히 면 지역에서 써야 하므로 섬 안 쓸 곳을 함께 늘려야 합니다.`:'<br>묶지 않으면 읍에서는 병원·약국·학원·안경원·영화관·문구점·세탁소만 한도 없이 쓸 수 있습니다.')}
-$('#sm').onchange=drawSim;$('#sb').onchange=drawSim;$('#cap').oninput=e=>{CAP=+e.target.value;drawSim();draw2()};
-function draw2(){let h='<tr><th>면</th><th>인구</th><th style="text-align:left">닿는 길</th><th>실제로 닿는 면 가맹점</th><th>닿는 읍(가맹점)</th><th>묶지 않을 때<br>1곳당 월(만 원)</th><th>묶을 때(읍 '+CAP+'만)<br>1곳당 월(만 원)</th></tr>';
- D.시나리오.forEach(x=>{h+=`<tr><td>${x.읍면}${x.읍으로만?' <span class="tag">읍으로만</span>':''}</td><td>${fmt(x.인구)}</td><td style="text-align:left;white-space:normal">${x.닿는길}</td><td>${fmt(x.기본형_실제.가맹점)}곳</td><td>${x.뱃길읍.join('·')} (${fmt(x.묶을때_읍.가맹점)})</td><td>${fmt(per(x,PAY))}</td><td>${fmt(per(x,PAY-CAP))}</td></tr>`});$('#t2').innerHTML=h}
+function drawSim(){const m=$('#sm').value,x=SC[m];$('#capv').textContent=CAP;$('#usev').textContent=USE;$('#hv').textContent=HC;
+ const gain2=Math.max(0,CAP-USE),room3=USE>=5?HC-5:0; // ③: 한도(5만)를 이미 채우는 가구만 여유가 생김
+ $('#sr').innerHTML=[['① 지금대로 — 읍에서 장보기','0원','읍에서는 병원·약국 등 7개 공통업종만(한도 없음)',''],['② 읍과 묶음 — 읍에서 새로 쓸 수 있는 돈',(gain2?'1인 월 '+gain2+'만 원':'0원'),'합산 한도 '+CAP+'만 − 섬 안 하나로·주유소·편의점 '+USE+'만'+(gain2==0?' → 얻는 것 없음':''),gain2==0?'warn':''],['③ 한도 업종 한도만 '+HC+'만 원으로 — 섬 안에서 더 쓸 수 있는 돈',(room3?'1인 월 '+room3+'만 원':'0원'),USE>=5?'섬 안 하나로·주유소·편의점 한도가 '+HC+'만 원으로 늘어남':'한도를 다 쓰지 않는 가구는 차이 없음',''],['읍으로 나갈 수 있는 돈의 상한(②)','월 '+fmt(x.인구*gain2)+'만 원',m+' 전체 · 나머지 월 '+fmt(x.인구*(PAY-gain2))+'만 원은 면 지역에 남음',''],['읍을 거치지 않고 닿는 면 가맹점',fmt(x.기본형_실제.가맹점)+'곳',x.기본형_실제.묶음.join('·')+' · 생필품 '+(x.기본형_실제.한도업종+x.기본형_실제.식료품생필품)+'곳',x.읍으로만?'warn':''],['자기 면 가맹점',fmt(x.자기면.가맹점)+'곳','한도 업종 '+x.자기면.한도업종+' · 식료품·생필품 '+x.자기면.식료품생필품+' · 약국 '+x.약국,'']].map(c=>`<div class="card ${c[3]}"><span>${c[0]}</span><b>${c[1]}</b><span>${c[2]}</span></div>`).join('');
+ $('#sn').innerHTML=`<b>${m}</b> — 닿는 길: ${x.닿는길}. 배가 닿는 읍: ${x.뱃길읍.join('·')}(가맹점 ${fmt(x.묶을때_읍.가맹점)}곳, 생필품 ${x.묶을때_읍.한도업종+x.묶을때_읍.식료품생필품}곳).`+(x.읍으로만?' 다른 면 가게에 가려면 읍에 내려 다시 이동해야 하는데, 그 읍에서는 공통업종 말고는 쓸 수 없습니다.':'')+`<br>${m} 안 한도 업종 가맹은 ${x.자기면.한도업종}곳입니다. `+(x.자기면.한도업종==0?'섬 안에 쓸 수 있는 하나로마트·주유소·편의점 가맹이 확인되지 않아 5만 원 한도가 비어 있습니다 — 자료상 ②(묶음)의 이득이 큰 면입니다.':'섬 안 하나로마트·주유소·편의점에서 한도를 채워 쓰는 가구가 많을수록 ②의 이득은 줄고 ③이 낫습니다. 가구 유형별로 위 「이미 쓰는 금액」을 바꿔 보십시오.')+`<br>묶으면 읍의 병원·약국 등 공통업종을 한도 없이 쓰던 혜택이 한도 안으로 들어올 수 있어 의료 지출이 많은 주민에게 불리할 수 있습니다(진안군은 2026. 10. 20. 이 이유로 상전면을 묶지 않았습니다).`}
+$('#sm').onchange=drawSim;$('#cap').oninput=e=>{CAP=+e.target.value;drawSim();draw2()};
+$('#use').oninput=e=>{USE=+e.target.value;drawSim();draw2()};$('#hcap').oninput=e=>{HC=+e.target.value;drawSim();draw2()};
+function draw2(){let h='<tr><th>면</th><th>인구</th><th>읍 거치지 않고 닿는<br>가맹점(생필품)</th><th>섬 안 한도 업종 가맹</th><th>닿는 읍 생필품</th><th>② 읍에서 새로 쓸 돈<br>(이미 0 / '+USE+'만 쓰는 가구)</th><th>③ 섬 안 여유<br>(한도 '+HC+'만, 채우는 가구)</th><th>② 읍 유출 상한<br>월(만 원, 한도 전부)</th><th>묶지 않을 때<br>가맹점 1곳당 월(만 원)</th><th style="text-align:left">자료상 출발점</th></tr>';
+ D.시나리오.forEach(x=>{const r=x.기본형_실제,g=r.한도업종+r.식료품생필품,ue=x.묶을때_읍.한도업종+x.묶을때_읍.식료품생필품;const st=!x.섬면||!x.읍으로만?'묶음보다 가맹 확대(육로·배로 다른 면에 닿음)':(x.자기면.한도업종==0?'② 묶음 — 섬 안 한도 업종 가맹 없음':'②·③ 가구 유형별 비교');
+  h+=`<tr><td>${x.읍면}${x.읍으로만?' <span class="tag">읍에 먼저 닿음</span>':''}</td><td>${fmt(x.인구)}</td><td>${fmt(r.가맹점)}곳(${g})</td><td>${x.자기면.한도업종}</td><td>${x.뱃길읍.join('·')} ${ue}</td><td>${CAP} / ${Math.max(0,CAP-USE)}만</td><td>${HC-5}만</td><td>${fmt(x.인구*CAP)}</td><td>${fmt(per(x,PAY))}</td><td style="text-align:left;white-space:normal">${st}</td></tr>`});$('#t2').innerHTML=h}
 // 섬
 const NEAR={'여서도':'여서-완도','장도(청산면)':'여서-완도','모도(청산면)':'완도-모도','대모도':'완도-모도','소모도':'완도-모도','덕우도':'완도-덕우','황제도':'완도-덕우','모황도':'완도-덕우','생일도':'당목-서성','당사도':'이목-당사','넙도(노화읍)':'이목-서넙','서넙도':'이목-서넙','마안도':'이목-서넙','후장구도':'이목-서넙','횡간도':'이목-남성','흑일도':'이목-남성','백일도':'이목-남성','마삭도':'이목-남성','동화도':'이목-남성','금당도':'녹동-동송','충도':'녹동-동송','청산도':'완도-청산','소안도':'화흥포-소안','어룡도':'이목-서넙','대장구도':'이목-서넙','서화도':'이목-남성','비견도':'녹동-동송','허우도':'녹동-동송','신도':'녹동-신지','구도':'화흥포-소안'};
 const FR=Object.fromEntries(D.여객선.map(f=>[f.항로,f]));
-function draw3(){const L=D.섬.filter(i=>i.인구<1500).map(i=>{const f=FR[NEAR[i.섬]];return{...i,f,sc:i.인구*(1+(f?f.결항률/100:0))}}).sort((a,b)=>((a.반경내점포===0?0:1)-(b.반경내점포===0?0:1))||b.sc-a.sc);
- let h='<tr><th>순위</th><th>섬</th><th>인구(2024년 말)</th><th>육지 연결</th><th>여객선</th><th>반경 내 점포(가맹 확인)</th><th>보건진료소</th><th>가까운 항로 결항률</th></tr>';
- const SUP=['충도','다랑도','원도','넙도(노화읍)','서넙도','횡간도','비견도','예작도'];L.forEach((i,k)=>{h+=`<tr><td>${k+1}</td><td>${i.섬}${SUP.includes(i.섬)?' <span class="tag ok">군 물류비 지원</span>':''}</td><td>${fmt(i.인구)}</td><td>${i.연결}</td><td>${i.여객선}</td><td>${i.반경내점포===0?'<span class="tag">없음</span>':i.반경내점포+'('+i.반경내가맹+')'}</td><td>${i.보건진료소}</td><td>${i.f?i.f.결항률+'% ('+i.f.항로+')':'미상'}</td></tr>`});$('#t3').innerHTML=h}
-function draw4(){let h='<tr><th>면허항로</th><th>하루 평균 계획 편수</th><th>결항률</th><th>하루 종일 배가 끊긴 날</th></tr>';[...D.여객선].sort((a,b)=>b.결항률-a.결항률).forEach(f=>{h+=`<tr><td>${f.항로}</td><td>${f.일평균편수}</td><td><span class="bar ${f.결항률>10?'hot':''}" style="width:${Math.round(f.결항률*5)}px"></span> ${f.결항률}%</td><td>${f.전편결항일}일</td></tr>`});$('#t4').innerHTML=h;$('#fn').textContent='기간 '+D.기준.여객선.replace('한국해양교통안전공단 항로별 여객선 운항상황 ','')+'. 결항률 = (통제 + 비운항) ÷ 계획 편수. 한국해양교통안전공단 항로별 여객선 운항상황 자료.'}
+const SUP=['충도','다랑도','원도','넙도(노화읍)','서넙도','횡간도','비견도','예작도'];
+function grp(i){if(i.연결=='연결'||!i.여객선.startsWith('운항'))return 3;if(SUP.includes(i.섬))return 1;return i.반경내점포===0?0:2}
+function islA(){return D.섬.filter(i=>i.인구<1500&&grp(i)==0)}
+const GN=['① 여객선이 다니는데 가게 없음 — 이동 공급·구판장 먼저','② 군 물류비 지원 섬 — 기존 사업과 맞춤','③ 가게 있는 섬 — 가맹 권유','④ 다리로 이어졌거나 정기 여객선 없음 — 해상 이동 공급 대상 아님'];
+function draw3(){const L=D.섬.filter(i=>i.인구<1500).map(i=>{const f=FR[NEAR[i.섬]];return{...i,f,g:grp(i),sc:i.인구*(1+(f?f.결항률/100:0))}}).sort((a,b)=>(a.g-b.g)||((a.반경내점포===0?0:1)-(b.반경내점포===0?0:1))||b.sc-a.sc);
+ let h='<tr><th>순위</th><th>섬</th><th>인구(2024년 말)</th><th>육지 연결</th><th>여객선</th><th>반경 내 점포(가맹 확인)</th><th>보건진료소</th><th>가까운 항로 결항률</th></tr>';let pg=-1,k=0;
+ L.forEach(i=>{if(i.g!=pg){h+=`<tr><td colspan="8" style="text-align:left;background:#f2f6fa;font-weight:700">${GN[i.g]}</td></tr>`;pg=i.g;k=0}k++;h+=`<tr><td>${k}</td><td>${i.섬}${SUP.includes(i.섬)?' <span class="tag ok">군 물류비 지원</span>':''}</td><td>${fmt(i.인구)}</td><td>${i.연결}</td><td>${i.여객선}</td><td>${i.반경내점포===0?'<span class="tag">없음</span>':i.반경내점포+'('+i.반경내가맹+')'}</td><td>${i.보건진료소}</td><td>${i.f?i.f.결항률+'% ('+i.f.항로+')':'미상'}</td></tr>`});$('#t3').innerHTML=h}
+function draw4(){let h='<tr><th>면허항로</th><th>하루 평균 계획 편수(이용객 수 아님)</th><th>결항률</th><th>하루 종일 배가 끊긴 날</th></tr>';[...D.여객선].sort((a,b)=>b.결항률-a.결항률).forEach(f=>{h+=`<tr><td>${f.항로}</td><td>${f.일평균편수}</td><td><span class="bar ${f.결항률>10?'hot':''}" style="width:${Math.round(f.결항률*5)}px"></span> ${f.결항률}%</td><td>${f.전편결항일}일</td></tr>`});$('#t4').innerHTML=h;$('#fn').textContent='기간 '+D.기준.여객선.replace('한국해양교통안전공단 항로별 여객선 운항상황 ','')+'. 결항률 = (통제 + 비운항) ÷ 계획 편수. 한국해양교통안전공단 항로별 여객선 운항상황 자료.'}
 function draw5(){const S=[['인구(읍면·연령)',D.기준.인구,'읍면별 인구·세대·60세 이상 비율'],['가맹점',D.기준.가맹점,'읍면별 가맹점 수·유형 ('+fmt(D.합계.가맹점)+'곳)'],['점포 위치·업종',D.기준.상가,'점포 '+fmt(D.합계.상가)+'곳 좌표·세부 업종, 가맹 목록과 결합(일치율 '+D.매칭률+'%)'],['약국·병의원',D.기준.의료,'읍면별 약국·민간 병의원·공공 보건기관'],['섬',D.기준.섬,'유인도 '+D.섬.length+'곳 인구·다리·여객선·시설'],['여객선',D.기준.여객선,'항로별 편수·결항률·전편 결항일'],['지급 가정',D.기준.지급가정,'화면에서 15~20만 원으로 변경 가능']];
  $('#t5').innerHTML='<tr><th>자료</th><th style="text-align:left">출처·기준 시점</th><th style="text-align:left">쓰임</th></tr>'+S.map(s=>`<tr><td>${s[0]}</td><td style="text-align:left;white-space:normal">${s[1]}</td><td style="text-align:left;white-space:normal">${s[2]}</td></tr>`).join('')}
 draw0();draw2();draw3();draw4();draw5();$('#sm').value='청산면';drawSim();show(+(location.hash.slice(1)||0));
